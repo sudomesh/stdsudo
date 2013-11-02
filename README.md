@@ -1,4 +1,4 @@
 stdsudo
 =======
 
-repository for all sudo libraries
+repository for all custom sudo mesh libraries
