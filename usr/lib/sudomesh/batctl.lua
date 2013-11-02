@@ -155,12 +155,14 @@ function get_interface_settings()
     
   for line in batctl:lines() do
     if line_contains_error(line) then
+      batctl:close()
       return Result.build(BATCTL_STATUS_FAILURE, line)
     else
       interfaces[#interfaces + 1] = Interface.build(string.match(line, '(.+):%s(.+)'))
     end
   end
   
+  batctl:close()
   return Result.build(BATCTL_STATUS_SUCCESS, interfaces)
 end
 
@@ -172,9 +174,11 @@ function add_interface(interface_name)
   batctl = io.popen(COMMAND_BATCTL_INTERFACE .. ' add ' .. interface_name)
   
   for line in batctl:lines() do
+    batctl:close()
     return Result.build(BATCTL_STATUS_FAILURE, line)
   end
   
+  batctl:close()
   return Result.build(BATCTL_STATUS_SUCCESS, nil)
 end
 
@@ -186,9 +190,11 @@ function remove_interface(interface_name)
   batctl = io.popen(COMMAND_BATCTL_INTERFACE .. ' del ' .. interface_name)
   
   for line in batctl:lines() do
+    batctl:close()
     return Result.build(BATCTL_STATUS_FAILURE, line)
   end
 
+  batctl:close()
   return Result.build(BATCTL_STATUS_SUCCESS, nil)
 end
 
@@ -206,6 +212,7 @@ function get_originators()
     line_count = line_count + 1
     
     if line_contains_error(line) then
+      batctl:close()
       return Result.build(BATCTL_STATUS_FAILURE, line)
     elseif string.find(line, MESSAGE_NO_BATMAN_NODES_IN_RANGE) ~= nil then
       break
@@ -216,6 +223,7 @@ function get_originators()
     end
   end
   
+  batctl:close()
   return Result.build(BATCTL_STATUS_SUCCESS, originators)
 end
 
@@ -229,12 +237,14 @@ function get_originator_interval_ms()
   
   for line in batctl:lines() do
     if line_contains_error(line) then
+      batctl:close()
       return Result.build(BATCTL_STATUS_FAILURE, line)
     else
       interval_ms = string.match(line, '%d+')
     end
   end
   
+  batctl:close()
   return Result.build(BATCTL_STATUS_SUCCESS, interval_ms)
 end
 
@@ -246,9 +256,11 @@ function set_originator_interval_ms(interval_ms)
   batctl = io.popen(COMMAND_BATCTL_ORIGINATOR_INTERVAL .. ' ' .. interval_ms)
   
   for line in batctl:lines() do
+    batctl:close()
     return Result.build(BATCTL_STATUS_FAILURE, line)
   end
 
+  batctl:close()
   return Result.build(BATCTL_STATUS_SUCCESS, nil)
 end
 
@@ -280,12 +292,15 @@ function get_gateway_mode()
   
   for line in batctl:lines() do
     if line_contains_error(line) then
+      batctl:close()
       return Result.build(BATCTL_STATUS_FAILURE, line)
     else
+      batctl:close()
       return Result.build(BATCTL_STATUS_SUCCESS, line)
     end
   end
   
+  batctl:close()
   return Result.build(BATCTL_STATUS_FAILURE, nil)
 end
 
@@ -298,9 +313,11 @@ function set_gateway_mode(gateway_mode)
   batctl = io.popen(COMMAND_BATCTL_GATEWAY_MODE .. ' ' .. gateway_mode)
   
   for line in batctl:lines() do
+    batctl:close()
     return Result.build(BATCTL_STATUS_FAILURE, line)
   end
   
+  batctl:close()
   return Result.build(BATCTL_STATUS_SUCCESS, nil)
 end
 
@@ -318,6 +335,7 @@ function get_gateway_list()
     line_count = line_count + 1
     
     if line_contains_error(line) then
+      batctl:close()
       return Result.build(BATCTL_STATUS_FAILURE, line)
     elseif string.find(line, MESSAGE_NO_GATEWAYS_IN_RANGE) ~= nil then
       break
@@ -328,6 +346,7 @@ function get_gateway_list()
     end
   end
   
+  batctl:close()
   return Result.build(BATCTL_STATUS_SUCCESS, gateways)
 end
 
@@ -359,12 +378,15 @@ function get_packet_aggregation()
   
   for line in batctl:lines() do
     if line_contains_error(line) then
+      batctl:close()
       return Result.build(BATCTL_STATUS_FAILURE, line)
     else
+      batctl:close()
       return Result.build(BATCTL_STATUS_SUCCESS, line)
     end
   end
   
+  batctl:close()
   return Result.build(BATCTL_STATUS_FAILURE, nil)
 end
 
@@ -377,9 +399,11 @@ function set_packet_aggregation(aggregation)
   batctl = io.popen(COMMAND_BATCTL_PACKET_AGGREGATION .. ' ' .. aggregation)
   
   for line in batctl:lines() do
+    batctl:close()
     return Result.build(BATCTL_STATUS_FAILURE, line)
   end
   
+  batctl:close()
   return Result.build(BATCTL_STATUS_SUCCESS, nil)
 end
 
@@ -393,12 +417,15 @@ function get_bonding_mode()
   
   for line in batctl:lines() do
     if line_contains_error(line) then
+      batctl:close()
       return Result.build(BATCTL_STATUS_FAILURE, line)
     else
+      batctl:close()
       return Result.build(BATCTL_STATUS_SUCCESS, line)
     end
   end
   
+  batctl:close()
   return Result.build(BATCTL_STATUS_FAILURE, nil)
 end
 
@@ -411,9 +438,11 @@ function set_bonding_mode(bonding)
   batctl = io.popen(COMMAND_BATCTL_BONDING_MODE .. ' ' .. bonding)
   
   for line in batctl:lines() do
+    batctl:close()
     return Result.build(BATCTL_STATUS_FAILURE, line)
   end
   
+  batctl:close()
   return Result.build(BATCTL_STATUS_SUCCESS, nil)
 end
 
@@ -427,12 +456,15 @@ function get_bridge_loop_avoidance()
   
   for line in batctl:lines() do
     if line_contains_error(line) then
+      batctl:close()
       return Result.build(BATCTL_STATUS_FAILURE, line)
     else
+      batctl:close()
       return Result.build(BATCTL_STATUS_SUCCESS, line)
     end
   end
   
+  batctl:close()
   return Result.build(BATCTL_STATUS_FAILURE, nil)
 end
 
@@ -445,9 +477,11 @@ function set_bridge_loop_avoidance(avoid)
   batctl = io.popen(COMMAND_BATCTL_BRIDGE_LOOP_AVOIDANCE .. ' ' .. avoid)
   
   for line in batctl:lines() do
+    batctl:close()
     return Result.build(BATCTL_STATUS_FAILURE, line)
   end
   
+  batctl:close()
   return Result.build(BATCTL_STATUS_SUCCESS, nil)
 end
 
@@ -461,12 +495,15 @@ function get_fragmentation_mode()
   
   for line in batctl:lines() do
     if line_contains_error(line) then
+      batctl:close()
       return Result.build(BATCTL_STATUS_FAILURE, line)
     else
+      batctl:close()
       return Result.build(BATCTL_STATUS_SUCCESS, line)
     end
   end
   
+  batctl:close()
   return Result.build(BATCTL_STATUS_FAILURE, nil)
 end
 
@@ -479,9 +516,11 @@ function set_fragmentation_mode(fragmentation)
   batctl = io.popen(COMMAND_BATCTL_FRAGMENTATION_MODE .. ' ' .. fragmentation)
   
   for line in batctl:lines() do
+    batctl:close()
     return Result.build(BATCTL_STATUS_FAILURE, line)
   end
   
+  batctl:close()
   return Result.build(BATCTL_STATUS_SUCCESS, nil)
 end
 
@@ -495,12 +534,15 @@ function get_ap_isolation_mode()
   
   for line in batctl:lines() do
     if line_contains_error(line) then
+      batctl:close()
       return Result.build(BATCTL_STATUS_FAILURE, line)
     else
+      batctl:close()
       return Result.build(BATCTL_STATUS_SUCCESS, line)
     end
   end
   
+  batctl:close()
   return Result.build(BATCTL_STATUS_FAILURE, nil)
 end
 
@@ -513,9 +555,11 @@ function set_ap_isolation_mode(isolation)
   batctl = io.popen(COMMAND_BATCTL_AP_ISOLATION_MODE .. ' ' .. isolation)
   
   for line in batctl:lines() do
+    batctl:close()
     return Result.build(BATCTL_STATUS_FAILURE, line)
   end
   
+  batctl:close()
   return Result.build(BATCTL_STATUS_SUCCESS, nil)
 end
 
